@@ -11,8 +11,8 @@ then
     --name prw-ws-database \
     --mount type=bind,source="$MYSQL_PATH",target=/var/lib/mysql \
     --env MYSQL_DATABASE="prw-ws-data" \
-    --env MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD"\
-    --env MYSQL_USER="$DB_USERNAME"\
+    --env MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD" \
+    --env MYSQL_USER="$DB_USERNAME" \
     --env MYSQL_PASSWORD="$DB_PASSWORD" \
     mysql:8
 fi

@@ -1,9 +1,15 @@
 docker rm -f prw-ws-server
 
+if ! docker network ls | grep -q prw-ws-net
+then
+    docker network create prw-ws-net
+fi
+
 if ! docker ps -a | grep -q prw-ws-database
 then
     docker run \
     -- name prw-ws-database \
+    --network prw-ws-net \
     --mount type=bind,source="$MYSQL_PATH",target=/var/lib/mysql \
     --env MYSQL_DATABASE="prw-ws-data" \
     --env MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD"\
@@ -15,8 +21,10 @@ fi
 docker run \
     --name prw-ws-server \
     -p 6001:6001 \
+    --network prw-ws-net \
     --env APP_KEY="$APP_KEY" \
     --env APP_ENV="$APP_ENV" \
+    --env DB_HOST="prw-ws-database" \
     --env DB_DATABASE="$DB_DATABASE" \
     --env DB_USERNAME="$DB_USERNAME" \
     --env DB_PASSWORD="$DB_PASSWORD" \

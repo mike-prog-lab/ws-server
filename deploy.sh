@@ -7,7 +7,7 @@ fi
 
 if ! docker ps -a | grep -q prw-ws-database
 then
-    docker run \
+    docker run -d \
     --name prw-ws-database \
     --network prw-ws-net \
     --mount type=bind,source="$MYSQL_PATH",target=/var/lib/mysql \
@@ -18,7 +18,7 @@ then
     mysql:8
 fi
 
-docker run \
+docker run -d \
     --name prw-ws-server \
     -p 6001:6001 \
     --network prw-ws-net \

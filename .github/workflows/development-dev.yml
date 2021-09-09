@@ -45,4 +45,4 @@ jobs:
             cd /var/www/ws-server/
             source .env
             export APP_VERSION=${{ steps.docker-tag.outputs.tag }}
-            sudo bash deploy.sh
+            bash deploy.sh

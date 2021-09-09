@@ -8,7 +8,7 @@ fi
 if ! docker ps -a | grep -q prw-ws-database
 then
     docker run \
-    -- name prw-ws-database \
+    --name prw-ws-database \
     --network prw-ws-net \
     --mount type=bind,source="$MYSQL_PATH",target=/var/lib/mysql \
     --env MYSQL_DATABASE="prw-ws-data" \

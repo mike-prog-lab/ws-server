@@ -9,7 +9,6 @@ if ! docker ps -a | grep -q prw-ws-database
 then
     docker run -d \
     --name prw-ws-database \
-    --network prw-ws-net \
     --mount type=bind,source="$MYSQL_PATH",target=/var/lib/mysql \
     --env MYSQL_DATABASE="prw-ws-data" \
     --env MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD"\
@@ -18,10 +17,11 @@ then
     mysql:8
 fi
 
+docker network connect --alias prw-ws-database prw-ws-net prw-ws-database
+
 docker run -d \
     --name prw-ws-server \
     -p 6001:6001 \
-    --network prw-ws-net \
     --env APP_KEY="$APP_KEY" \
     --env APP_ENV="$APP_ENV" \
     --env DB_HOST="prw-ws-database" \
@@ -36,3 +36,4 @@ docker run -d \
     --env MIX_PUSHER_APP_CLUSTER="$MIX_PUSHER_APP_CLUSTER" \
     docker.pkg.github.com/contact-funnels-ltd/prw-websocket-server/prw-ws-server:"$APP_VERSION"
 
+docker network connect --alias prw-ws-server prw-ws-net prw-ws-server

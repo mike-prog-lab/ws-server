@@ -14,7 +14,8 @@ ENV MIX_PUSHER_APP_CLUSTER $PUSHER_APP_CLUSTER
 WORKDIR $HOME
 
 RUN adduser -D $USER; \
-    apk add composer
+    apk add composer; \
+    docker-php-ext-install mysqli pdo_mysql
 
 COPY --chown=$USER:$USER . .
 

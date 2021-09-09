@@ -13,7 +13,7 @@ then
     --env MYSQL_DATABASE="prw-ws-data" \
     --env MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD"\
     --env MYSQL_USER="$DB_USERNAME"\
-    --env DB_PASSWORD="$DB_PASSWORD" \
+    --env MYSQL_PASSWORD="$DB_PASSWORD" \
     mysql:8
 fi
 

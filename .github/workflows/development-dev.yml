@@ -34,7 +34,7 @@ jobs:
           tags: |
             docker.pkg.github.com/${{ env.IMAGE_REPOSITORY }}/prw-ws-server:${{ steps.docker-tag.outputs.tag }}
             docker.pkg.github.com/${{ env.IMAGE_REPOSITORY }}/prw-ws-server:latest
-      - name: Rebuild Production Websocket Server
+      - name: Rebuild Development Websocket Server
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SSH_DEV_HOST }}

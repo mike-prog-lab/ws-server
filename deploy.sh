@@ -1,10 +1,25 @@
-#docker rm -f prw-ws-server
+docker rm -f prw-ws-server
+
+if ! docker ps -a | grep -q prw-ws-database
+then
+    docker run \
+    -- name prw-ws-database \
+    --mount type=bind,source="$MYSQL_PATH",target=/var/lib/mysql \
+    --env MYSQL_DATABASE="prw-ws-data" \
+    --env MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD"\
+    --env MYSQL_USER="$DB_USERNAME"\
+    --env DB_PASSWORD="$DB_PASSWORD" \
+    mysql:8
+fi
 
 docker run \
     --name prw-ws-server \
     -p 6001:6001 \
     --env APP_KEY="$APP_KEY" \
     --env APP_ENV="$APP_ENV" \
+    --env DB_DATABASE="$DB_DATABASE" \
+    --env DB_USERNAME="$DB_USERNAME" \
+    --env DB_PASSWORD="$DB_PASSWORD" \
     --env PUSHER_APP_ID="$PUSHER_APP_ID" \
     --env PUSHER_APP_KEY="$PUSHER_APP_KEY" \
     --env PUSHER_APP_SECRET="$PUSHER_APP_SECRET" \

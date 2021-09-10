@@ -28,7 +28,11 @@ docker run -d \
     --env DB_DATABASE="$DB_DATABASE" \
     --env DB_USERNAME="$DB_USERNAME" \
     --env DB_PASSWORD="$DB_PASSWORD" \
-    --env PUSHER_APP_ID="$PUSHER_APP_ID" \
+    --env LARAVEL_WEBSOCKETS_SSL_LOCAL_CERT="$TLS_PATH"/fullchain.pem \
+    --env LARAVEL_WEBSOCKETS_SSL_LOCAL_PK="$TLS_PATH"/privkey.pem \
+    --env PUSHER_APP_HOST="$PUSHER_APP_HOST" \
+    --env PUSHER_APP_PORT="$PUSHER_APP_PORT" \
+    --env PUSHER_USE_TLS="$PUSHER_USE_TLS" \
     --env PUSHER_APP_KEY="$PUSHER_APP_KEY" \
     --env PUSHER_APP_SECRET="$PUSHER_APP_SECRET" \
     --env PUSHER_APP_CLUSTER="$PUSHER_APP_CLUSTER" \
@@ -37,3 +41,5 @@ docker run -d \
     docker.pkg.github.com/contact-funnels-ltd/prw-websocket-server/prw-ws-server:"$APP_VERSION"
 
 docker network connect --alias prw-ws-server prw-ws-net prw-ws-server
+docker network connect --alias prw-ws-server prw_backend prw-ws-server
+docker network connect --alias prw-ws-server prw_middleware prw-ws-server

@@ -28,9 +28,7 @@ docker run -d \
     --env DB_DATABASE="$DB_DATABASE" \
     --env DB_USERNAME="$DB_USERNAME" \
     --env DB_PASSWORD="$DB_PASSWORD" \
-    --env LARAVEL_WEBSOCKETS_SSL_LOCAL_CERT="$TLS_PATH"/fullchain.pem \
-    --env LARAVEL_WEBSOCKETS_SSL_LOCAL_PK="$TLS_PATH"/privkey.pem \
-    --env PUSHER_APP_HOST="$PUSHER_APP_HOST" \
+    --env PUSHER_APP_ID="$PUSHER_APP_ID" \
     --env PUSHER_APP_PORT="$PUSHER_APP_PORT" \
     --env PUSHER_USE_TLS="$PUSHER_USE_TLS" \
     --env PUSHER_APP_KEY="$PUSHER_APP_KEY" \

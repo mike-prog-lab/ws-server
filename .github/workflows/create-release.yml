@@ -18,16 +18,11 @@ jobs:
         run: |
           echo IMAGE_REPOSITORY=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
 
-      - name: Version Composition
-        id: composer
-        uses: juliansangillo/version-composer@v1.1
+      - name: Get version of the project
+        id: project-version
+        uses: euberdeveloper/ga-project-version@v1.0.1
         with:
-          revision-pattern: M.m.b
-          preferred-type: build
-          test-branch: stage
-          dev-branch: development
-          test-tag: stage
-          dev-tag: dev
+          package-manager: 'composer'
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -45,10 +40,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.composer.outputs.version }}
-          release_name: Release ${{ steps.composer.outputs.raw-version }}
+          tag_name: v${{ steps.project-version.outputs.version }}
+          release_name: Release ${{ steps.composer.outputs.version }}
           draft: false
-          prerelease: ${{ steps.composer.outputs.is-prerelease == 'true' }}
+          prerelease: true
 
       - name: Docker Backend Build and Push
         uses: docker/build-push-action@v2
@@ -57,4 +52,4 @@ jobs:
           context: .
           file: ./Dockerfile
           tags: |
-            docker.pkg.github.com/${{ env.IMAGE_REPOSITORY }}/ws-server:${{ steps.composer.outputs.version }}
+            docker.pkg.github.com/${{ env.IMAGE_REPOSITORY }}/ws-server:${{ steps.project-version.outputs.version }}
